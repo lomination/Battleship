@@ -100,7 +100,10 @@ class Board:
 
     def get_tile_at(self, pos: tuple[int, int]) -> Tile:
         """Returns a copy the tile at the given position (under the form `(x, y)`) on this board's grid"""
-        return self.__grid[pos[1]][pos[0]].copy()
+        try:
+            return self.__grid[pos[1]][pos[0]].copy()
+        except IndexError:
+            raise IndexError(f"Max value: {self.size()}; given: {pos}")
 
     def set_tile_at(self, new_tile: Tile, pos: tuple[int, int]) -> None:
         """Sets this board's grid to the given tile at the given position (under the form `(x, y)`). Also update this board's boats (add a boat to it if the given tile contains a new boat)"""
@@ -151,8 +154,10 @@ class Board:
                     del self.__boats[boat_id]
 
     def guess_tile(self, pos: tuple[int, int]) -> None:
-        """Guesses whether the tile at the given position on this board's grid is a boat"""
+        """Guesses whether the tile at the given position on this board's grid is a boat. Does nothing if the tile has already been guessed"""
         current_tile: Tile = self.__grid[pos[1]][pos[0]]
+        if current_tile.get_state == State.SEEN:
+            return
         current_tile.view()
         if current_tile.get_boat_id() is not None:
             boat_is_seen: bool = True
