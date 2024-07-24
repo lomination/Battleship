@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Install pyinstaller
+        run: pip install pyinstaller
+
       - name: Build Executable for Linux
         run: pyinstaller -F --name battleship-linux main.py
 
@@ -45,6 +48,9 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Install pyinstaller
+        run: pip install pyinstaller
 
       - name: Build Executable for Windows
         run: pyinstaller -F --name battleship-windows main.py
